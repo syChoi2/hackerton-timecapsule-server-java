@@ -6,9 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
-
-import com.coronacapsule.api.dto.MarbleDto;
-import com.coronacapsule.api.dto.UserDto;
+import com.coronacapsule.api.dto.*;
 import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.Users;
 import com.coronacapsule.api.exception.BusinessException;
@@ -23,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final UserRepository userRepository;
+	private final JwtService jwtService;
 	
 	
 	public Boolean getUser(String socialId) throws Exception {
@@ -39,17 +38,25 @@ public class UserService {
 		}
 		
 		if(userList.size() == 0) {
-			
-//	        throw new BusinessException("사용자 없음", ErrorCode.NOT_FOUND);
 			result =false;
 	
-		}
-//		users = userList.get(0);
-		
+		}		
 	
 		return result;
 	
-		
 
+	}
+	
+	public String userLogin(long userId) throws Exception{
+		String jwtToken="";
+		try {
+			jwtToken = jwtService.createJwt(userId);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException("토큰 생성에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
+			
+		}
+		return jwtToken;
+		
 	}
 }

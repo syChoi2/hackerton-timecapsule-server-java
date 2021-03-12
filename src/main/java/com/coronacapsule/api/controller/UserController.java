@@ -71,9 +71,28 @@ public class UserController {
 	 */
 	@ApiOperation(value="로그인")
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
+	public ResponseEntity<String> login(@RequestHeader String socialToken){
+		long userId ;
+		String jwtToken="";
+
+		try {
+			userId= kakaoService.userIdFromKakao(socialToken);
+		}catch(Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("Invalid Token", ErrorCode.TOKEN_ERROR);
+
+		}
+		String social_id = Long.toString(userId);
 		
-		return ResponseEntity.ok(null);
+		
+		try {
+			jwtToken = userService.userLogin(userId);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException("로그인에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
+
+		}
+		return ResponseEntity.ok("jwtToken: "+jwtToken);
 		
 	}
 	
