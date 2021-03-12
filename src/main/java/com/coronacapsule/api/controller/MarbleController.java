@@ -1,5 +1,7 @@
 package com.coronacapsule.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coronacapsule.api.dto.JwtAuthentication;
+import com.coronacapsule.api.dto.MarbleDto;
 import com.coronacapsule.api.dto.MarbleListResponseDto;
 import com.coronacapsule.api.dto.PostMarbleRequestDto;
 import com.coronacapsule.api.enums.MarbleColor;
@@ -58,6 +61,27 @@ public class MarbleController {
 		MarbleListResponseDto marbleListResponseDto = marbleService.getMarbleList(userId, marbleColorAsEmun);
 		
 		return ResponseEntity.ok(marbleListResponseDto);
+	}
+	
+	/**
+	 * 구슬 - 버킷리스트 내용 목록 출력
+	 * 코로나 종식으로 타임캡슐이 열렸을 때만 접근 가능
+	 * @throws Exception 
+	 */
+	@ApiOperation(value="구슬 - 완료됨 목록 (코로나 종식 후)")
+	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
+	@GetMapping("/checked")
+	public ResponseEntity<List<MarbleDto>> getChekcedMarbleList(@ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) throws Exception{
+		
+		if(! coronaEndFlag) {
+			throw new BusinessException(ErrorCode.OPEN_NOT_ALLOWED);
+		}
+		
+		long userId = authentication.userId;
+		
+		List<MarbleDto> marbleDtoList = marbleService.getChekcedMarbleList(userId);
+		
+		return ResponseEntity.ok(marbleDtoList);
 	}
 	
 	/**

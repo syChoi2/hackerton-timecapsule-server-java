@@ -31,4 +31,7 @@ public interface MarbleRepository extends JpaRepository<Marbles, Long> {
 
 	Iterable<Marbles> findAllByCapsule_User_UserIdAndMarbleColorAndDeletedFalseOrderByMarbleId(long userId, MarbleColor marbleColor);
 
+	
+	Iterable<Marbles> findAllByCapsule_User_UserIdAndWishCheckedTrueAndDeletedFalseOrderByModifiedAtDesc(long userId);
+
 }

@@ -83,4 +83,15 @@ public class MarbleService {
 		
 	}
 
+	public List<MarbleDto> getChekcedMarbleList(long userId) {
+		Iterable<Marbles> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndWishCheckedTrueAndDeletedFalseOrderByModifiedAtDesc(userId);
+	
+		List<MarbleDto> marbleList = new ArrayList<MarbleDto>();
+		
+		for (Marbles marble : iterableMarble) {
+			marbleList.add(marble.convertToDto());
+		}
+		return marbleList;
+	}
+
 }
