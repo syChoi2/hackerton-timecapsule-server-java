@@ -44,13 +44,12 @@ public class Marbles extends JpaBase {
 	}
 
 	public MarbleDto convertToDto() {
-		MarbleDto.builder()
+		return MarbleDto.builder()
 			.marbleId(marbleId)
 			.content(content)
 			.marbleColor(marbleColor)
 			.wishChecked(wishChecked)
 			.build();
-		return null;
 	}
 
 	public void checkWish() {
