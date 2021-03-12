@@ -1,5 +1,6 @@
 package com.coronacapsule.api.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,22 @@ import springfox.documentation.annotations.ApiIgnore;
 public class CapsuleController {
 
 	private final CapsuleService capsuleService;
+	
+
+	@Value("${custom.config.corona_end_flag}")
+	private boolean coronaEndFlag;
+	/**
+	 * 좌물쇠 상태 확인 
+	 * 코로나 끝나면 true 로 내려줌
+	 */
+	@ApiOperation(value="좌물쇠 상태 확인 (코로나 끝나면 true 로 내려줌)")
+	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
+//	@PatchMapping("/{capsuleId}/name")
+	@GetMapping("/open")
+	public ResponseEntity<Boolean> getOpenCapsuleFlag() {
+
+		return ResponseEntity.ok(coronaEndFlag);
+	}
 	
 	/**
 	 * 캡슐 이름 수정
