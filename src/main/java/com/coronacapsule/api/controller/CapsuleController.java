@@ -16,6 +16,7 @@ import com.coronacapsule.api.service.CapsuleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class CapsuleController {
 	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
 //	@PatchMapping("/{capsuleId}/name")
 	@PatchMapping("/name")
-	public void setCapsuleName(@RequestBody CapsuleNameDto capsuleNameDto, @AuthenticationPrincipal JwtAuthentication authentication) {
+	public void setCapsuleName(@RequestBody CapsuleNameDto capsuleNameDto, @ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) {
 		
 		long userId = authentication.userId;
 		
@@ -47,7 +48,7 @@ public class CapsuleController {
 	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
 //	@PatchMapping("/{capsuleId}/colorCounts")
 	@GetMapping
-	public ResponseEntity<CapsuleDto> getCapsule(@AuthenticationPrincipal JwtAuthentication authentication) {
+	public ResponseEntity<CapsuleDto> getCapsule(@ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) {
 		
 		long userId = authentication.userId;
 		
