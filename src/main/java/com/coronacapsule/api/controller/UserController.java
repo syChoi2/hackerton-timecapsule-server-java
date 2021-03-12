@@ -19,6 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/v1/users")
 public class UserController {
 
+	/**
+	 * test
+	 */
+
 
 	/**
 	 * 로그인
