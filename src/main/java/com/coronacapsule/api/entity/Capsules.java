@@ -38,7 +38,7 @@ public class Capsules extends JpaBase {
 	private Users user;
 	
 	private String capsuleName;
-	private int marbleCount;
+	private int allowedMarbleCount;
 	
 	@ToString.Exclude
 	@JsonManagedReference
