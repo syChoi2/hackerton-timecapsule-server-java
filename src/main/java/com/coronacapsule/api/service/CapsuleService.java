@@ -10,6 +10,7 @@ import com.coronacapsule.api.dto.CapsuleDto;
 import com.coronacapsule.api.dto.CapsuleNameDto;
 import com.coronacapsule.api.dto.MarbleColorResultSet;
 import com.coronacapsule.api.entity.Capsules;
+import com.coronacapsule.api.entity.CoronaEndFlag;
 import com.coronacapsule.api.exception.BusinessException;
 import com.coronacapsule.api.exception.ErrorCode;
 import com.coronacapsule.api.repository.CapsuleRepository;
@@ -59,6 +60,12 @@ public class CapsuleService {
 
 	public boolean getOpenCapsuleFlag() {
 		return coronaEndFlagRepository.findById(1L).get().isFlag();
+	}
+
+
+	public boolean toggleFlag() {
+		CoronaEndFlag flag = coronaEndFlagRepository.findById(1L).get();
+		return flag.toggleFlag();
 	}
 
 }
