@@ -26,6 +26,8 @@ public enum ErrorCode {
     // User Controller
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "US001", "사용자를 찾을 수 없습니다."),
     TOKEN_ERROR(HttpStatus.BAD_REQUEST.value(), "US002", "토큰오류입니다."),
+    MODIFY_ERROR(HttpStatus.BAD_REQUEST.value(), "US002", "수정에 실패하였습니다."),
+
 	
 	// marble controller
 	NO_EMPTY_SPACE(HttpStatus.BAD_REQUEST.value(), "MB001", "캡슐에 더 이상 공간이 없어요ㅠㅠ");

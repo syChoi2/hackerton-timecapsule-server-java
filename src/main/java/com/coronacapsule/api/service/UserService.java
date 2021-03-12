@@ -55,16 +55,57 @@ public class UserService {
 		
 	}
 	
-	public String userSignUp(long userId, SignUpDto param) throws Exception{
+	public String userSignUp(String socialId, SignUpDto param) throws Exception{
 		
-		String jwtToken= createJwtToken(userId);
-		
+		Long jwtLongToken = Long.parseLong(socialId);
+		String jwtToken= createJwtToken(jwtLongToken);
 		String nickName = param.getNickname();
+		
+		Users newUser = Users.builder()
+				.socialId(socialId)
+				.nickname(nickName)
+				.build();
+		
+		userRepository.save(newUser);
 		
 		return jwtToken;
 	}
 	
 	
+	public String modifyNickName(long userId, String nickName) throws Exception{
+		
+		List<PatchUserDto> userList;
+		PatchUserDto user;
+		String resultStr = "";
+		
+		try {
+			userList = userRepository.findAllByUserId(userId);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException( ErrorCode.USER_NOT_FOUND);
+
+		}
+		
+		if(userList.size() == 0) {
+            throw new BusinessException("가입되어 있는 회원이 아닙니다", ErrorCode.USER_NOT_FOUND);
+
+		}
+		user = userList.get(0);
+		
+		
+		Users modifyUser = Users.builder()
+				.socialId(user.getSocialId())		
+				.build();
+		
+		resultStr = user.getNickName() + "(" + userId + ")님의 닉네임이 " +nickName + "으로 변경되었습니다.";
+		
+		return resultStr;
+	}
+	
+	
+	/**
+	 * token 발급 재사용성을 위한 
+	 */
 	public String createJwtToken(long userId) throws Exception{
 		String jwtToken="";
 		try {
