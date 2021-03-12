@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 
+
 	/**
 	 * 로그인
 	 * 최초 가입일 경우 닉네임을 받기 위한 flag 값 필요
