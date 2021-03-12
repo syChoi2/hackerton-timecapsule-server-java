@@ -31,7 +31,9 @@ public class MarbleService {
 	
 	public void putMarble(long userId, PostMarbleRequestDto marble) {
 	
-
+		if(marble.getContent().length()>21) {
+			throw new BusinessException(ErrorCode.MARBLE_CONTENT_TOO_LONG);
+		}
 		Capsules capsule = capsuleRepository.findByUser_UserIdAndDeletedFalse(userId).orElseThrow(() -> new BusinessException("캡슐 정보 없음", ErrorCode.NOT_FOUND));
 
 		if(capsule.getAllowedMarbleCount() - capsule.getMarbleList().size() <= 0) {

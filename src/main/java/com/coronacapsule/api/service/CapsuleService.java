@@ -29,6 +29,10 @@ public class CapsuleService {
 	
 	public void setCapsuleName(long userId, CapsuleNameDto capsuleNameDto) {
 		
+		if(capsuleNameDto.getCapsuleName().length()>10) {
+			throw new BusinessException(ErrorCode.CAPSULE_NAME_TOO_LONG);
+		}
+		
 		//유저 ID로 캡슐 검색
 		Capsules capsule = capsuleRepository.findByUser_UserId(userId).orElseThrow(()-> new BusinessException("캡슐 없음", ErrorCode.NOT_FOUND));
 		
