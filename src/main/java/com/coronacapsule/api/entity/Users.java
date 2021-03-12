@@ -16,12 +16,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity       
 @Getter       
-@SuperBuilder 
+@SuperBuilder
+@NoArgsConstructor
 public class Users extends JpaBase {
 
 

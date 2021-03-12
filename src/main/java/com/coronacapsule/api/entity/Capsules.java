@@ -14,17 +14,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.coronacapsule.api.dto.CapsuleDto;
+import com.coronacapsule.api.dto.MarbleColorResultSet;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity       
 @Getter       
 @SuperBuilder 
+@NoArgsConstructor
 public class Capsules extends JpaBase {
 
 	@Id
@@ -45,6 +49,31 @@ public class Capsules extends JpaBase {
 	@OneToMany(mappedBy = "capsule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Marbles> marbleList = new ArrayList<Marbles>();
+
+	public void changeCapsuleName(String capsuleName) {
+		this.capsuleName = capsuleName;
+	}
+
+	public CapsuleDto convertToCapsuleDto() {
+		
+		return CapsuleDto.builder()
+				.capsuleId(capsuleId)
+				.capsuleName(capsuleName)
+				.allowedMarbleCount(allowedMarbleCount)
+				.build();
+		
+	}
+	
+	public CapsuleDto convertToCapsuleDto(List<MarbleColorResultSet> marbleColorCountDto) {
+		
+		return CapsuleDto.builder()
+				.capsuleId(capsuleId)
+				.capsuleName(capsuleName)
+				.allowedMarbleCount(allowedMarbleCount)
+				.marbleColorCount(marbleColorCountDto)
+				.build();
+		
+	}
 	
 	
 }
