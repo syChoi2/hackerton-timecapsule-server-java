@@ -14,11 +14,13 @@ import com.coronacapsule.api.dto.MarbleDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity       
 @Getter       
 @SuperBuilder 
+@NoArgsConstructor
 public class Marbles extends JpaBase {
 
 	@Id
