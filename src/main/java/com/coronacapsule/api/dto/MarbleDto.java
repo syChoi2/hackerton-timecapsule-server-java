@@ -9,6 +9,6 @@ public class MarbleDto {
 	
 	private String content;
 	private String marbleColor;
-	private boolean wishChecked;
+	private boolean wishChecked = false;
 	
 }

@@ -3,12 +3,8 @@ package com.coronacapsule.api.dto;
 import lombok.Getter;
 
 @Getter
-public class UserDto {
+public class NicknameDto {
 
-	private Long userId;
-
-//	private String socialId;
 	private String nickname;
 	
-
 }
