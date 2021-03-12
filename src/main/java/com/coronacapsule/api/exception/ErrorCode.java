@@ -27,9 +27,11 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "US001", "사용자를 찾을 수 없습니다."),
     TOKEN_ERROR(HttpStatus.BAD_REQUEST.value(), "US002", "토큰오류입니다."),
     NICKNAME_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "US003", "닉네임은 10자 이내로 입력해주세요"),
-    
+    MODIFY_ERROR(HttpStatus.BAD_REQUEST.value(), "US002", "수정에 실패하였습니다."),
+
     //Capsule Controller
     CAPSULE_NAME_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "CP001", "캡슐 이름은 10자 이내로 입력해주세요"),
+
 	
 	// marble controller
 	NO_EMPTY_SPACE(HttpStatus.BAD_REQUEST.value(), "MB001", "캡슐에 더 이상 공간이 없어요😢"),

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coronacapsule.api.dto.LoginRequestDto;
 import com.coronacapsule.api.dto.LoginResponseDto;
+import com.coronacapsule.api.dto.PatchNicknameRequest;
 import com.coronacapsule.api.dto.SignUpDto;
 import com.coronacapsule.api.exception.BusinessException;
 import com.coronacapsule.api.exception.ErrorCode;
+import com.coronacapsule.api.service.JwtService;
 import com.coronacapsule.api.service.KakaoService;
 import com.coronacapsule.api.service.UserService;
 
@@ -28,13 +30,14 @@ public class UserController {
 	
 	private final KakaoService kakaoService;
 	private final UserService userService;
+	private final JwtService jwtService;
 
 	/**
 	 * 회원 유무 확인
 	 */
 	@ApiOperation(value="회원가입 여부 확인")
 	@GetMapping("/exists")
-	public ResponseEntity<Boolean> exists(@RequestHeader String socialToken){
+	public ResponseEntity<Boolean> exists(@RequestHeader("X-ACCESS-TOKEN") String socialToken){
 		long userId ;
 		boolean isMember = true;
 		System.out.println(socialToken);
@@ -71,9 +74,28 @@ public class UserController {
 	 */
 	@ApiOperation(value="로그인")
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
+	public ResponseEntity<String> login(@RequestHeader("X-ACCESS-TOKEN") String socialToken){
+		long userId ;
+		String jwtToken="";
+
+		try {
+			userId= kakaoService.userIdFromKakao(socialToken);
+		}catch(Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("Invalid Token", ErrorCode.TOKEN_ERROR);
+
+		}
+		String social_id = Long.toString(userId);
 		
-		return ResponseEntity.ok(null);
+		
+		try {
+			jwtToken = userService.userLogin(userId);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException("로그인에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
+
+		}
+		return ResponseEntity.ok("jwtToken: "+jwtToken);
 		
 	}
 	
@@ -83,10 +105,29 @@ public class UserController {
 	 * 회원가입 후 로그인까지 진행
 	 */
 	@ApiOperation(value="회원가입")
-	@PatchMapping("/signUp")
-	public ResponseEntity<LoginResponseDto> signUp(@RequestBody SignUpDto signUpDto){
-		
-		return ResponseEntity.ok(null);
+	@PostMapping("/signUp")
+	public ResponseEntity<String> signUp(@RequestHeader("X-ACCESS-TOKEN") String socialToken,@RequestBody SignUpDto signUpDto){
+		long userId ;
+		String jwtToken;
+
+		try {
+			userId= kakaoService.userIdFromKakao(socialToken);
+		}catch(Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("Invalid Token", ErrorCode.TOKEN_ERROR);
+
+		}
+		String social_id = Long.toString(userId);
+
+
+		try {
+			jwtToken = userService.userSignUp(social_id, signUpDto);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException("회원가입에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
+
+		}
+		return ResponseEntity.ok("jwtToken: "+jwtToken);
 		
 	}	
 	
@@ -95,11 +136,28 @@ public class UserController {
 	 * 중복일 시 오류 메시지 출력
 	 */
 	@ApiOperation(value="닉네임 수정")
-	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
+	//@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "X-ACCESS-TOKEN")
 	@PatchMapping("/nickname")
-	public ResponseEntity<?> setNickname(@RequestBody SignUpDto nicknameDto){
+	public ResponseEntity<String> setNickname(@RequestHeader("X-ACCESS-TOKEN") String token , @RequestBody PatchNicknameRequest nicknameDto){
 		
-		return ResponseEntity.ok(null);
+		String resultStr = "";
+		long userId = 0;
+		
+		try {
+			userId = jwtService.getUserId(token);
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException( ErrorCode.TOKEN_ERROR);
+		}
+		
+		try {
+			resultStr = userService.modifyNickName(userId, nicknameDto.getNickName());
+		}catch(Exception e) {
+			e.printStackTrace();
+            throw new BusinessException( ErrorCode.MODIFY_ERROR);
+		}
+		
+		return ResponseEntity.ok(resultStr);
 		
 	}
 
