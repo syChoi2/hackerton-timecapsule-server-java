@@ -70,6 +70,7 @@ public class Capsules extends JpaBase {
 				.capsuleId(capsuleId)
 				.capsuleName(capsuleName)
 				.allowedMarbleCount(allowedMarbleCount)
+				.usedCount(marbleList.size())
 				.marbleColorCount(marbleColorCountDto)
 				.build();
 		
