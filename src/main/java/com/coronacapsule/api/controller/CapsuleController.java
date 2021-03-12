@@ -1,6 +1,5 @@
 package com.coronacapsule.api.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +25,6 @@ public class CapsuleController {
 
 	private final CapsuleService capsuleService;
 	
-
-	@Value("${custom.config.corona_end_flag}")
-	private boolean coronaEndFlag;
 	/**
 	 * 좌물쇠 상태 확인 
 	 * 코로나 끝나면 true 로 내려줌
@@ -39,7 +35,7 @@ public class CapsuleController {
 	@GetMapping("/open")
 	public ResponseEntity<Boolean> getOpenCapsuleFlag() {
 
-		return ResponseEntity.ok(coronaEndFlag);
+		return ResponseEntity.ok(capsuleService.getOpenCapsuleFlag());
 	}
 	
 	/**

@@ -13,6 +13,7 @@ import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.exception.BusinessException;
 import com.coronacapsule.api.exception.ErrorCode;
 import com.coronacapsule.api.repository.CapsuleRepository;
+import com.coronacapsule.api.repository.CoronaEndFlagRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class CapsuleService {
 	
 
 	private final CapsuleRepository capsuleRepository;
+	private final CoronaEndFlagRepository coronaEndFlagRepository;
 	
 	
 	public void setCapsuleName(long userId, CapsuleNameDto capsuleNameDto) {
@@ -48,6 +50,11 @@ public class CapsuleService {
 		CapsuleDto capsuleDto = capsule.convertToCapsuleDto(marbleColorCount);
 
 		return capsuleDto;
+	}
+
+
+	public boolean getOpenCapsuleFlag() {
+		return coronaEndFlagRepository.findById(1L).get().isFlag();
 	}
 
 }
