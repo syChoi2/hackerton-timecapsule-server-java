@@ -21,11 +21,14 @@ public enum ErrorCode {
     INSUFFICIENT_VALUE(HttpStatus.BAD_REQUEST.value(), "CM005", "요청값이 부족합니다."),
     INVALID_FORMAT(HttpStatus.BAD_REQUEST.value(), "CM006", "잘못된 형식입니다."),
     ACCESS_TOKEN_EXPIRED(HttpStatus.BAD_REQUEST.value(), "CM007", "접근 권한이 만료되었습니다."),
+    
+    OPEN_NOT_ALLOWED(HttpStatus.BAD_REQUEST.value(), "CM008", "코로나가 얼른 종식됐으면 좋겠다."),
 
     // User Controller
-    USER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "US001", "사용자를 찾을 수 없습니다.");
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "US001", "사용자를 찾을 수 없습니다."),
 	
-
+	// marble controller
+	NO_EMPTY_SPACE(HttpStatus.BAD_REQUEST.value(), "MB001", "캡슐에 더 이상 공간이 없어요ㅠㅠ");
 
     private int status;
     private String code;
