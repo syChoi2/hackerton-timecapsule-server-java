@@ -77,10 +77,14 @@ public class MarbleController {
 	@ApiOperation(value="구슬 - 버킷리스트 체크 (코로나 종식 후)")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PatchMapping("/{marbleId}/check")
-	public ResponseEntity<?> checkWish(@PathVariable("marbleId") long marbleId){
+	public ResponseEntity<?> checkWish(@PathVariable("marbleId") long marbleId, @ApiIgnore long userId){
 		if(! coronaEndFlag) {
-			// throw error
+			throw new BusinessException(ErrorCode.OPEN_NOT_ALLOWED);
 		}
+
+		userId = 1L;
+		
+		marbleService.checkWish(userId, marbleId);
 		
 		return ResponseEntity.ok(null);
 	}

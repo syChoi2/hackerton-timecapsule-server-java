@@ -48,15 +48,24 @@ public class MarbleService {
 
 	public List<MarbleDto> getMarbleList(long userId) {
 		
-		Iterable<MarbleDto> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndDeletedFalse(userId);
+		Iterable<Marbles> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndDeletedFalse(userId);
 		
 		List<MarbleDto> marbleList = new ArrayList<MarbleDto>();
 		
-		for (MarbleDto marbleDto : iterableMarble) {
-			marbleList.add(marbleDto);
+		for (Marbles marble : iterableMarble) {
+			marbleList.add(marble.convertToDto());
 		}
 		
 		return marbleList;
+	}
+
+	public void checkWish(long userId, long marbleId) {
+		
+
+		Marbles marble = marbleRepository.findAllByCapsule_User_UserIdAndMarbleIdAndDeletedFalse(userId, marbleId).orElseThrow(() -> new BusinessException("운석 정보 없음", ErrorCode.NOT_FOUND));
+		
+		marble.checkWish();
+		
 	}
 
 }

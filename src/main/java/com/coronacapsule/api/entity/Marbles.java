@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.coronacapsule.api.dto.MarbleDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
@@ -38,6 +39,20 @@ public class Marbles extends JpaBase {
 		this.capsule = capsule;
 		capsule.getMarbleList().add(this);
 		
+	}
+
+	public MarbleDto convertToDto() {
+		MarbleDto.builder()
+			.marbleId(marbleId)
+			.content(content)
+			.marbleColor(marbleColor)
+			.wishChecked(wishChecked)
+			.build();
+		return null;
+	}
+
+	public void checkWish() {
+		this.wishChecked = true;
 	}
 	
 	
