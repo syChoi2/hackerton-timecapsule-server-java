@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.coronacapsule.api.dto.*;
 import com.coronacapsule.api.entity.Capsules;

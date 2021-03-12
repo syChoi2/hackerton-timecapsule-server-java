@@ -136,7 +136,7 @@ public class UserController {
 	 * 중복일 시 오류 메시지 출력
 	 */
 	@ApiOperation(value="닉네임 수정")
-	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "X-ACCESS-TOKEN")
+	//@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "X-ACCESS-TOKEN")
 	@PatchMapping("/nickname")
 	public ResponseEntity<String> setNickname(@RequestHeader("X-ACCESS-TOKEN") String token , @RequestBody PatchNicknameRequest nicknameDto){
 		
@@ -144,7 +144,7 @@ public class UserController {
 		long userId = 0;
 		
 		try {
-			userId = jwtService.getUserId();
+			userId = jwtService.getUserId(token);
 		}catch(Exception e) {
 			e.printStackTrace();
             throw new BusinessException( ErrorCode.TOKEN_ERROR);

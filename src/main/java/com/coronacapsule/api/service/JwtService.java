@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class JwtService {
     
     private final UserService userService;
     
-    public JwtService(UserService userService, Secret secret) {
+    public JwtService(@Lazy UserService userService, Secret secret) {
         this.userService = userService;
         this.header = secret.getHEADER();
         this.issuer = secret.getISSUER();
@@ -71,7 +72,7 @@ public class JwtService {
                 users.getAuthorities()
         );
     }
-    private Long getUserId(String token) {
+    public Long getUserId(String token) {
         return Long.valueOf(Jwts.parser()
                 .setSigningKey(clientSecret)
                 .parseClaimsJws(token)
