@@ -18,5 +18,10 @@ public class CoronaEndFlag {
 	private Long id;
 	
 	private boolean flag;
+
+	public boolean toggleFlag() {
+		this.flag = !flag;
+		return flag;
+	}
 	
 }

@@ -71,4 +71,20 @@ public class CapsuleController {
 	}
 	
 	
+	
+	/**
+	 * 캡슐 정보 (색깔별 카운트 + 개수 몇분의 몇)
+	 * 현재는 capsule ID 없이 user ID로만 찾아서 바꾸지만 나중에 확장하게 되면 capsule ID 구분해서 update 해야한다.
+	 */
+	@ApiOperation(value="(테스트용) 코로나 종식 값 바꾸기")
+	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
+	@PatchMapping("/toggle-flag")
+	public ResponseEntity<Boolean> toggleFlag() {
+		
+		boolean flag = capsuleService.toggleFlag();
+		
+		return ResponseEntity.ok(flag);
+	}
+	
+	
 }
