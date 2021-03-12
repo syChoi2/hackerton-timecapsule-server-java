@@ -26,6 +26,6 @@ public interface CapsuleRepository extends JpaRepository<Capsules, Long> {
 			"left join " + 
 			"(select marble_color, count(*) marbleCount from marbles where capsule_id = :capsuleId group by marble_color) b " + 
 			"on ( a.marble_color = b.marble_color )")
-	List<MarbleColorResultSet> findMarbleColorCounts(@Param("capsuleId") Long capsuleId);
+	List<MarbleColorResultSet> findMarbleColorCountsByCapsuleId(@Param("capsuleId") Long capsuleId);
 
 }

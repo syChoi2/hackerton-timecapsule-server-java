@@ -13,6 +13,7 @@ public class CapsuleDto {
 	
 	private String capsuleName;
 	private int allowedMarbleCount;
+	private int usedCount;
 	
 	private List<MarbleColorResultSet> marbleColorCount;
 	

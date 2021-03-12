@@ -2,6 +2,7 @@ package com.coronacapsule.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -117,4 +118,8 @@ public class UserService {
 		}
 		return jwtToken;
 	}
+	
+	  public Optional<Users> findById(Long userId) {
+	        return userRepository.findById(userId);
+	    }
 }

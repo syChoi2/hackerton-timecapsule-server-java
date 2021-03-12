@@ -7,6 +7,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.coronacapsule.api.enums.Role;
+import com.coronacapsule.api.service.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final JwtService jwtService;
 
     @Bean
     @Override
@@ -33,8 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
             .and()
             .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-            .anyRequest().permitAll()// 그외 나머지 요청은 모두 인증된 회원만 접근 가능.and()
+            .antMatchers("/v1/users/exists", "/v1/users/login", "/v1/users/signUp", "/v1/users/login").permitAll()
+            .antMatchers("/v1/**").hasRole(Role.USER.name())// 그외 나머지 요청은 모두 인증된 회원만 접근 가능.and()
             ;
+        
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
     }
 
