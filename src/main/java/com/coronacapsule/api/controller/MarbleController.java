@@ -21,7 +21,6 @@ import com.coronacapsule.api.service.MarbleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,13 +40,13 @@ public class MarbleController {
 	@ApiOperation(value="구슬 - 버킷리스트 목록 (코로나 종식 후)")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@GetMapping
-	public ResponseEntity<List<MarbleDto>> getMarbleList(@ApiIgnore long userId){
+	public ResponseEntity<List<MarbleDto>> getMarbleList(){
 		
 		if(! coronaEndFlag) {
 			throw new BusinessException(ErrorCode.OPEN_NOT_ALLOWED);
 		}
 		
-		userId = 1L;
+		long userId = 1L;
 		
 		List<MarbleDto> marbleList = marbleService.getMarbleList(userId);
 		
@@ -60,9 +59,9 @@ public class MarbleController {
 	@ApiOperation(value="구슬 등록")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PostMapping
-	public ResponseEntity<?> putMarble(@RequestBody PostMarbleRequestDto marble, @ApiIgnore long userId){
+	public ResponseEntity<?> putMarble(@RequestBody PostMarbleRequestDto marble){
 		
-		userId = 1L;
+		long userId = 1L;
 		
 		marbleService.putMarble(userId, marble);
 		
@@ -77,12 +76,12 @@ public class MarbleController {
 	@ApiOperation(value="구슬 - 버킷리스트 체크 (코로나 종식 후)")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PatchMapping("/{marbleId}/check")
-	public ResponseEntity<?> checkWish(@PathVariable("marbleId") long marbleId, @ApiIgnore long userId){
+	public ResponseEntity<?> checkWish(@PathVariable("marbleId") long marbleId){
 		if(! coronaEndFlag) {
 			throw new BusinessException(ErrorCode.OPEN_NOT_ALLOWED);
 		}
 
-		userId = 1L;
+		long userId = 1L;
 		
 		marbleService.checkWish(userId, marbleId);
 		

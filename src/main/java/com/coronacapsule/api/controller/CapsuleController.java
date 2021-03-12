@@ -14,7 +14,6 @@ import com.coronacapsule.api.service.CapsuleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +30,9 @@ public class CapsuleController {
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 //	@PatchMapping("/{capsuleId}/name")
 	@PatchMapping("/name")
-	public void setCapsuleName(@RequestBody CapsuleNameDto capsuleNameDto, @ApiIgnore long userId) {
+	public void setCapsuleName(@RequestBody CapsuleNameDto capsuleNameDto) {
 		
-		userId = 1L;
+		long userId = 1L;
 		
 		capsuleService.setCapsuleName(userId, capsuleNameDto);
 	}
@@ -46,9 +45,9 @@ public class CapsuleController {
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 //	@PatchMapping("/{capsuleId}/colorCounts")
 	@GetMapping
-	public ResponseEntity<CapsuleDto> getCapsule(@ApiIgnore long userId) {
+	public ResponseEntity<CapsuleDto> getCapsule() {
 		
-		userId = 1L;
+		long userId = 1L;
 		
 		CapsuleDto capsuleDto = capsuleService.getCapsule(userId);
 		
