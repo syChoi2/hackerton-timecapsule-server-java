@@ -3,6 +3,8 @@ package com.coronacapsule.api.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.coronacapsule.api.dto.MarbleDto;
+import com.coronacapsule.api.enums.MarbleColor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
@@ -34,7 +37,8 @@ public class Marbles extends JpaBase {
 	private Capsules capsule;
 
 	private String content;
-	private String marbleColor;
+	@Enumerated(EnumType.STRING)
+	private MarbleColor marbleColor;
 	private boolean wishChecked;
 	
 	public void setCapsule(Capsules capsule) {
@@ -49,6 +53,7 @@ public class Marbles extends JpaBase {
 			.content(content)
 			.marbleColor(marbleColor)
 			.wishChecked(wishChecked)
+			.createdAt(super.getCreatedAt().toLocalDate())
 			.build();
 	}
 

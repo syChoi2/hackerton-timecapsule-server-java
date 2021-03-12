@@ -26,6 +26,19 @@ public class CapsuleController {
 	private final CapsuleService capsuleService;
 	
 	/**
+	 * 좌물쇠 상태 확인 
+	 * 코로나 끝나면 true 로 내려줌
+	 */
+	@ApiOperation(value="좌물쇠 상태 확인 (코로나 끝나면 true 로 내려줌)")
+	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
+//	@PatchMapping("/{capsuleId}/name")
+	@GetMapping("/open")
+	public ResponseEntity<Boolean> getOpenCapsuleFlag() {
+
+		return ResponseEntity.ok(capsuleService.getOpenCapsuleFlag());
+	}
+	
+	/**
 	 * 캡슐 이름 수정
 	 * 현재는 capsule ID 없이 user ID로만 찾아서 바꾸지만 나중에 확장하게 되면 capsule ID 구분해서 update 해야한다.
 	 */

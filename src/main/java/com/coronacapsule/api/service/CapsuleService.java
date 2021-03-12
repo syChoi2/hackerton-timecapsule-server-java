@@ -13,6 +13,7 @@ import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.exception.BusinessException;
 import com.coronacapsule.api.exception.ErrorCode;
 import com.coronacapsule.api.repository.CapsuleRepository;
+import com.coronacapsule.api.repository.CoronaEndFlagRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class CapsuleService {
 	
 
 	private final CapsuleRepository capsuleRepository;
+	private final CoronaEndFlagRepository coronaEndFlagRepository;
 	
 	
 	public void setCapsuleName(long userId, CapsuleNameDto capsuleNameDto) {
@@ -42,12 +44,17 @@ public class CapsuleService {
 		Capsules capsule = capsuleRepository.findByUser_UserId(userId).orElseThrow(()-> new BusinessException("캡슐 없음", ErrorCode.NOT_FOUND));
 
 		//캡슐 ID로 색깔별 구슬 count 검색
-		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCounts(capsule.getCapsuleId());
+		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCountsByCapsuleId(capsule.getCapsuleId());
 		
 		//Entity to Dto
 		CapsuleDto capsuleDto = capsule.convertToCapsuleDto(marbleColorCount);
 
 		return capsuleDto;
+	}
+
+
+	public boolean getOpenCapsuleFlag() {
+		return coronaEndFlagRepository.findById(1L).get().isFlag();
 	}
 
 }
