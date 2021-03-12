@@ -9,6 +9,6 @@ public class LoginResponseDto {
 
 	private UserDto user;
 	private String token;
-	private List<MarbleColorCountDto> marbleColorCountList; 
+	//private List<MarbleColorCountDto> marbleColorCountList; 
 	
 }

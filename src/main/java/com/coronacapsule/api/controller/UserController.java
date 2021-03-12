@@ -5,12 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coronacapsule.api.dto.LoginRequestDto;
 import com.coronacapsule.api.dto.LoginResponseDto;
 import com.coronacapsule.api.dto.SignUpDto;
+import com.coronacapsule.api.exception.BusinessException;
+import com.coronacapsule.api.exception.ErrorCode;
+import com.coronacapsule.api.service.KakaoService;
+import com.coronacapsule.api.service.UserService;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -20,25 +25,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/v1/users")
 public class UserController {
+	
+	private final KakaoService kakaoService;
+	private final UserService userService;
 
 	/**
-<<<<<<< HEAD
-	 * test
-	 */
-
-
-=======
 	 * 회원 유무 확인
 	 */
 	@ApiOperation(value="회원가입 여부 확인")
 	@GetMapping("/exists")
-	public ResponseEntity<Boolean> exists(String socialToken){
+	public ResponseEntity<Boolean> exists(@RequestHeader String socialToken){
+		long userId ;
+		boolean isMember = true;
+		System.out.println(socialToken);
 		
-		return ResponseEntity.ok(null);
+		try {
+			userId= kakaoService.userIdFromKakao(socialToken);
+		}catch(Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("Invalid Token", ErrorCode.TOKEN_ERROR);
+
+		}
+		String social_id = Long.toString(userId);
+		System.out.println(userId);
+		
+		try {
+			isMember = userService.getUser(social_id);
+		}catch(Exception e) {
+			e.printStackTrace();
+			 new BusinessException("회원정보 조회 실패 ", ErrorCode.NOT_FOUND);
+		}
+		
+		
+	
+		
+		return ResponseEntity.ok(isMember);
 		
 	}
 	
->>>>>>> e22e263ec83d36c27f5dfa60b32ca486f2e53971
 	/**
 	 * 로그인
 	 *
@@ -78,7 +102,6 @@ public class UserController {
 		return ResponseEntity.ok(null);
 		
 	}
-	
+
 	
 }
-
