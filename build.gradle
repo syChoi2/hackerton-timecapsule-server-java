@@ -53,9 +53,16 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2' 
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	
+	 //querydsl
+    implementation 'com.querydsl:querydsl-jpa'
 
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson'
 }
 
 test {
 	useJUnitPlatform()
 }
+
