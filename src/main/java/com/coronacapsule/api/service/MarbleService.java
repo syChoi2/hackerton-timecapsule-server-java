@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.coronacapsule.api.dto.MarbleDto;
+import com.coronacapsule.api.dto.PostMarbleRequestDto;
 import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.Marbles;
 import com.coronacapsule.api.exception.BusinessException;
@@ -25,7 +26,7 @@ public class MarbleService {
 	private final MarbleRepository marbleRepository;
 	private final CapsuleRepository capsuleRepository;
 	
-	public void putMarble(long userId, MarbleDto marble) {
+	public void putMarble(long userId, PostMarbleRequestDto marble) {
 	
 
 		Capsules capsule = capsuleRepository.findByUser_UserIdAndDeletedFalse(userId).orElseThrow(() -> new BusinessException("캡슐 정보 없음", ErrorCode.NOT_FOUND));
