@@ -2,17 +2,14 @@ package com.coronacapsule.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.coronacapsule.api.dto.MarbleDto;
 import com.coronacapsule.api.dto.UserDto;
-import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.Users;
-import com.coronacapsule.api.exception.BusinessException;
-import com.coronacapsule.api.exception.ErrorCode;
 import com.coronacapsule.api.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -52,4 +49,8 @@ public class UserService {
 		
 
 	}
+
+    public Optional<Users> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
 }
