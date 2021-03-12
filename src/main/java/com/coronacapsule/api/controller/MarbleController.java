@@ -24,6 +24,7 @@ import com.coronacapsule.api.service.MarbleService;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -89,7 +90,7 @@ public class MarbleController {
 	@ApiOperation(value="구슬 등록")
 	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
 	@PostMapping
-	public ResponseEntity<?> putMarble(@RequestBody PostMarbleRequestDto marble, @ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) throws Exception{
+	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\nmarbleColor : String, 숫자 둘다 허용 [RED(0), YELLOW(1), BLUE(2), GREEN(3), PURPLE(4)]", required = true)@RequestBody PostMarbleRequestDto marble, @ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) throws Exception{
 		
 		long userId = authentication.userId;
 		
