@@ -48,6 +48,24 @@ public class UserService {
 	}
 	
 	public String userLogin(long userId) throws Exception{
+		
+		String jwtToken= createJwtToken(userId);
+		
+		return jwtToken;
+		
+	}
+	
+	public String userSignUp(long userId, SignUpDto param) throws Exception{
+		
+		String jwtToken= createJwtToken(userId);
+		
+		String nickName = param.getNickname();
+		
+		return jwtToken;
+	}
+	
+	
+	public String createJwtToken(long userId) throws Exception{
 		String jwtToken="";
 		try {
 			jwtToken = jwtService.createJwt(userId);
@@ -57,6 +75,5 @@ public class UserService {
 			
 		}
 		return jwtToken;
-		
 	}
 }
