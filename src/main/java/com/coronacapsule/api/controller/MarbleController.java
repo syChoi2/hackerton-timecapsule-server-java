@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,7 +72,7 @@ public class MarbleController {
 	@ApiOperation(value="구슬 - 버킷리스트 체크 (코로나 종식 후)")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PatchMapping("/{marbleId}/check")
-	public ResponseEntity<?> checkWish(){
+	public ResponseEntity<?> checkWish(@PathVariable("marbleId") long marbleId){
 		if(! coronaEndFlag) {
 			// throw error
 		}
