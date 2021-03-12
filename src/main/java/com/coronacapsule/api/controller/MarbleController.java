@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coronacapsule.api.dto.MarbleColorCountDto;
 import com.coronacapsule.api.dto.MarbleDto;
+import com.coronacapsule.api.exception.BusinessException;
+import com.coronacapsule.api.exception.ErrorCode;
+import com.coronacapsule.api.service.MarbleService;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +33,18 @@ public class MarbleController {
 	private boolean coronaEndFlag;
 	
 
+	private final MarbleService marbleService;
+	
+	/**
+	 * 구슬 등록
+	 * 
+	 * @return
+	 */
+	public ResponseEntity<List<MarbleColorCountDto>> getMarbleColorCountList(){
+
+		return ResponseEntity.ok(null);
+	}
+	
 	/**
 	 * 구슬 등록
 	 * 특이사항으로 21개 이하만 등록 가능
@@ -38,7 +55,11 @@ public class MarbleController {
 	@ApiOperation(value="구슬 등록 -> return 값이 필요한지?")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PostMapping
-	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\n(wishChecked 안 보내주셔도 됩니다.)", required = true) @RequestBody MarbleDto marble){
+	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\n(wishChecked 안 보내주셔도 됩니다.)", required = true) @RequestBody MarbleDto marble, @ApiIgnore long userId){
+		
+		userId = 1L;
+		
+		marbleService.putMarble(userId, marble);
 		
 		return ResponseEntity.ok(null);
 	}
@@ -52,12 +73,17 @@ public class MarbleController {
 	@ApiOperation(value="구슬 - 버킷리스트 목록 (코로나 종식 후)")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@GetMapping
-	public ResponseEntity<List<MarbleDto>> getMarbleList(){
+	public ResponseEntity<List<MarbleDto>> getMarbleList(@ApiIgnore long userId){
+		
 		if(! coronaEndFlag) {
-			// throw error
+			throw new BusinessException(ErrorCode.OPEN_NOT_ALLOWED);
 		}
 		
-		return ResponseEntity.ok(null);
+		userId = 1L;
+		
+		List<MarbleDto> marbleList = marbleService.getMarbleList(userId);
+		
+		return ResponseEntity.ok(marbleList);
 	}
 	
 	/**
