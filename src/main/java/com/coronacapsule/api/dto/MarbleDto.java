@@ -1,5 +1,9 @@
 package com.coronacapsule.api.dto;
 
+import java.time.LocalDate;
+
+import com.coronacapsule.api.enums.MarbleColor;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +14,7 @@ public class MarbleDto {
 	private Long marbleId;
 	
 	private String content;
-	private String marbleColor;
+	private MarbleColor marbleColor;
 	private boolean wishChecked;
-	
+	private LocalDate createdAt;	
 }

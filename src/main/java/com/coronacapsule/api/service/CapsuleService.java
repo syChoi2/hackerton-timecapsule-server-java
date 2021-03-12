@@ -42,7 +42,7 @@ public class CapsuleService {
 		Capsules capsule = capsuleRepository.findByUser_UserId(userId).orElseThrow(()-> new BusinessException("캡슐 없음", ErrorCode.NOT_FOUND));
 
 		//캡슐 ID로 색깔별 구슬 count 검색
-		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCounts(capsule.getCapsuleId());
+		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCountsByCapsuleId(capsule.getCapsuleId());
 		
 		//Entity to Dto
 		CapsuleDto capsuleDto = capsule.convertToCapsuleDto(marbleColorCount);
