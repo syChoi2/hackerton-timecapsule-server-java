@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.coronacapsule.api.dto.MarbleDto;
+import com.coronacapsule.api.dto.PostMarbleRequestDto;
 import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.Marbles;
 import com.coronacapsule.api.exception.BusinessException;
@@ -25,7 +26,7 @@ public class MarbleService {
 	private final MarbleRepository marbleRepository;
 	private final CapsuleRepository capsuleRepository;
 	
-	public void putMarble(long userId, MarbleDto marble) {
+	public void putMarble(long userId, PostMarbleRequestDto marble) {
 	
 
 		Capsules capsule = capsuleRepository.findByUser_UserIdAndDeletedFalse(userId).orElseThrow(() -> new BusinessException("캡슐 정보 없음", ErrorCode.NOT_FOUND));
@@ -47,15 +48,24 @@ public class MarbleService {
 
 	public List<MarbleDto> getMarbleList(long userId) {
 		
-		Iterable<MarbleDto> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndDeletedFalse(userId);
+		Iterable<Marbles> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndDeletedFalse(userId);
 		
 		List<MarbleDto> marbleList = new ArrayList<MarbleDto>();
 		
-		for (MarbleDto marbleDto : iterableMarble) {
-			marbleList.add(marbleDto);
+		for (Marbles marble : iterableMarble) {
+			marbleList.add(marble.convertToDto());
 		}
 		
 		return marbleList;
+	}
+
+	public void checkWish(long userId, long marbleId) {
+		
+
+		Marbles marble = marbleRepository.findAllByCapsule_User_UserIdAndMarbleIdAndDeletedFalse(userId, marbleId).orElseThrow(() -> new BusinessException("운석 정보 없음", ErrorCode.NOT_FOUND));
+		
+		marble.checkWish();
+		
 	}
 
 }

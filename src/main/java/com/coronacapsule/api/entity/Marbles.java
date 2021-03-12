@@ -10,14 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.coronacapsule.api.dto.MarbleDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity       
 @Getter       
 @SuperBuilder 
+@NoArgsConstructor
 public class Marbles extends JpaBase {
 
 	@Id
@@ -38,6 +41,19 @@ public class Marbles extends JpaBase {
 		this.capsule = capsule;
 		capsule.getMarbleList().add(this);
 		
+	}
+
+	public MarbleDto convertToDto() {
+		return MarbleDto.builder()
+			.marbleId(marbleId)
+			.content(content)
+			.marbleColor(marbleColor)
+			.wishChecked(wishChecked)
+			.build();
+	}
+
+	public void checkWish() {
+		this.wishChecked = true;
 	}
 	
 	
