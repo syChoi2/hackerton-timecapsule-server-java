@@ -38,7 +38,7 @@ public class MarbleController {
 	@ApiOperation(value="구슬 등록 -> return 값이 필요한지?")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
 	@PostMapping
-	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\n(wishChecked 안 보내주셔도 됩니다.)") @RequestBody MarbleDto marble){
+	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\n(wishChecked 안 보내주셔도 됩니다.)", required = true) @RequestBody MarbleDto marble){
 		
 		return ResponseEntity.ok(null);
 	}
