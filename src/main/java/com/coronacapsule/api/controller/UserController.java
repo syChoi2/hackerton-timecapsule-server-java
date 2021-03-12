@@ -24,7 +24,7 @@ public class UserController {
 	/**
 	 * 회원 유무 확인
 	 */
-	@ApiOperation(value="로그인")
+	@ApiOperation(value="회원가입 여부 확인")
 	@GetMapping("/exists")
 	public ResponseEntity<Boolean> exists(String socialToken){
 		
