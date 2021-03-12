@@ -1,6 +1,8 @@
 package com.coronacapsule.api.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coronacapsule.api.dto.LoginRequestDto;
 import com.coronacapsule.api.dto.LoginResponseDto;
-import com.coronacapsule.api.dto.NicknameDto;
+import com.coronacapsule.api.dto.SignUpDto;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -20,17 +22,28 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	/**
+<<<<<<< HEAD
 	 * test
 	 */
 
 
+=======
+	 * 회원 유무 확인
+	 */
+	@ApiOperation(value="회원가입 여부 확인")
+	@GetMapping("/exists")
+	public ResponseEntity<Boolean> exists(String socialToken){
+		
+		return ResponseEntity.ok(null);
+		
+	}
+	
+>>>>>>> e22e263ec83d36c27f5dfa60b32ca486f2e53971
 	/**
 	 * 로그인
-	 * 최초 가입일 경우 닉네임을 받기 위한 flag 값 필요
 	 *
 	 * return
 	 * 1. 토큰 + 캡슐정보
-	 * 2. new user t/f
 	 */
 	@ApiOperation(value="로그인")
 	@PostMapping("/login")
@@ -41,13 +54,26 @@ public class UserController {
 	}
 	
 	/**
-	 * 최초 로그인 시 닉네임 등록/수정
+	 * 회원가입
+	 * 
+	 * 회원가입 후 로그인까지 진행
+	 */
+	@ApiOperation(value="회원가입")
+	@PatchMapping("/signUp")
+	public ResponseEntity<LoginResponseDto> signUp(@RequestBody SignUpDto signUpDto){
+		
+		return ResponseEntity.ok(null);
+		
+	}	
+	
+	/**
+	 * 닉네임 수정
 	 * 중복일 시 오류 메시지 출력
 	 */
-	@ApiOperation(value="닉네임 등록/수정")
+	@ApiOperation(value="닉네임 수정")
 	@ApiImplicitParam(name = "Autentication", paramType = "header", required = true, value = "access token")
-	@PostMapping("/nickname")
-	public ResponseEntity<LoginResponseDto> setNickname(@RequestBody NicknameDto nicknameDto){
+	@PatchMapping("/nickname")
+	public ResponseEntity<?> setNickname(@RequestBody SignUpDto nicknameDto){
 		
 		return ResponseEntity.ok(null);
 		

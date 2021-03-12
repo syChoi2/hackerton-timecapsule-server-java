@@ -9,7 +9,6 @@ public class LoginResponseDto {
 
 	private UserDto user;
 	private String token;
-	private boolean isNewUser;
 	private List<MarbleColorCountDto> marbleColorCountList; 
 	
 }

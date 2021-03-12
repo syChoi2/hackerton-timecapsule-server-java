@@ -34,6 +34,12 @@ public class Marbles extends JpaBase {
 	private String marbleColor;
 	private boolean wishChecked;
 	
+	public void setCapsule(Capsules capsule) {
+		this.capsule = capsule;
+		capsule.getMarbleList().add(this);
+		
+	}
+	
 	
 	
 }
