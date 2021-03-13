@@ -61,7 +61,30 @@ public class MarbleController {
 		
 		return ResponseEntity.ok(marbleListResponseDto);
 	}
-	
+
+
+	/**
+	 * 구슬 - 버킷리스트 내용 목록 출력
+	 * 코로나 flag 없이 조회 가능
+	 * @throws Exception
+	 */
+	@ApiOperation(value="구슬 - 버킷리스트 목록 (코로나 flag 없이 조회 가능)")
+	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
+	@GetMapping("/no-flag")
+	public ResponseEntity<MarbleListResponseDto> getMarbleList_withoutFlag(@ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication, String marbleColor) throws Exception{
+
+		MarbleColor marbleColorAsEmun = null;
+		if(marbleColor!=null) {
+			marbleColorAsEmun = MarbleColor.lookup(Integer.parseInt(marbleColor));
+		}
+
+		long userId = authentication.userId;
+
+		MarbleListResponseDto marbleListResponseDto = marbleService.getMarbleList(userId, marbleColorAsEmun);
+
+		return ResponseEntity.ok(marbleListResponseDto);
+	}
+
 	/**
 	 * 구슬 - 버킷리스트 내용 목록 출력
 	 * 코로나 종식으로 타임캡슐이 열렸을 때만 접근 가능
