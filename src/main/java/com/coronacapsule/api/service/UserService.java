@@ -1,18 +1,17 @@
 package com.coronacapsule.api.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import com.coronacapsule.api.dto.*;
+
+import com.coronacapsule.api.dto.SignUpDto;
 import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.Users;
 import com.coronacapsule.api.exception.BusinessException;
 import com.coronacapsule.api.exception.ErrorCode;
+import com.coronacapsule.api.repository.CapsuleRepository;
 import com.coronacapsule.api.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,35 +22,23 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final UserRepository userRepository;
+	private final CapsuleRepository capsuleRepository;
 	private final JwtService jwtService;
 	
 	
-	public Boolean getUser(String socialId) throws Exception {
+	public Boolean checkExistence(String socialId) throws Exception {
 		
-		UserDto users;
-		boolean result =true;
-	
-		Iterable<UserDto> iterableUser = userRepository.findAllBySocialId(socialId);
-		
-		List<UserDto> userList = new ArrayList<UserDto>();
-		
-		for (UserDto userDto : iterableUser) {
-			userList.add(userDto);
-		}
-		
-		if(userList.size() == 0) {
-			result =false;
-	
-		}		
-	
-		return result;
-	
+		return userRepository.existsBySocialIdAndDeletedFalse(socialId);
 
 	}
 	
-	public String userLogin(long userId) throws Exception{
+	public String userLogin(String social_id) throws Exception{
 		
-		String jwtToken= createJwtToken(userId);
+		// 1. 사용자 존재여부 확인
+		Users user = userRepository.findBySocialId(social_id).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
+		
+		// 2. 토큰 발급	socialId가 아니라 userId 로 해야함	//만약 social id도 token에 담고 싶으면 추가해도 되지만 지금은 사용할 데가 없으니 userId만 담겠습니다.
+		String jwtToken = createJwtToken(user.getUserId());
 		
 		return jwtToken;
 		
@@ -59,8 +46,7 @@ public class UserService {
 	
 	public String userSignUp(String socialId, SignUpDto param) throws Exception{
 		
-		Long jwtLongToken = Long.parseLong(socialId);
-		String jwtToken= createJwtToken(jwtLongToken);
+		//user 생성
 		String nickName = param.getNickname();
 		
 		Users newUser = Users.builder()
@@ -68,7 +54,19 @@ public class UserService {
 				.nickname(nickName)
 				.build();
 		
-		userRepository.save(newUser);
+		newUser = userRepository.save(newUser);
+		
+		//capsule 생성
+		Capsules capsule = Capsules.builder()
+				.build();
+		
+		capsule.setUsers(newUser);
+		
+		capsuleRepository.save(capsule);
+
+//		Long jwtLongToken = Long.parseLong(socialId);
+//		String jwtToken= createJwtToken(jwtLongToken);	//socialId가 아니라 userId 로 해야함	//만약 social id도 token에 담고 싶으면 추가해도 되지만 지금은 사용할 데가 없으니 userId만 담겠습니다.
+		String jwtToken= createJwtToken(newUser.getUserId());
 		
 		return jwtToken;
 	}
@@ -76,30 +74,32 @@ public class UserService {
 	
 	public String modifyNickName(long userId, String nickName) throws Exception{
 		
-		List<PatchUserDto> userList;
-		PatchUserDto user;
+		Optional<Users> optionalUser;
+		Users user;
 		String resultStr = "";
 		
 		try {
-			userList = userRepository.findAllByUserId(userId);
+			optionalUser = userRepository.findById(userId);	
 		}catch(Exception e) {
 			e.printStackTrace();
             throw new BusinessException( ErrorCode.USER_NOT_FOUND);
 
 		}
 		
-		if(userList.size() == 0) {
-            throw new BusinessException("가입되어 있는 회원이 아닙니다", ErrorCode.USER_NOT_FOUND);
-
-		}
-		user = userList.get(0);
+		//위에서 처리함
+//		if(userList.size() == 0) {
+//            throw new BusinessException("가입되어 있는 회원이 아닙니다", ErrorCode.USER_NOT_FOUND);
+//
+//		}
 		
+		user = optionalUser.get();
 		
-		Users modifyUser = Users.builder()
-				.socialId(user.getSocialId())		
-				.build();
+		user.changeNickname(nickName);
+//		Users modifyUser = Users.builder()
+//				.socialId(user.getSocialId())		
+//				.build();
 		
-		resultStr = user.getNickName() + "(" + userId + ")님의 닉네임이 " +nickName + "으로 변경되었습니다.";
+		resultStr =  "(" + userId + ")님의 닉네임이 " +nickName + "으로 변경되었습니다.";
 		
 		return resultStr;
 	}
