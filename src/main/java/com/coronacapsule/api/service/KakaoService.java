@@ -47,10 +47,10 @@ public class KakaoService {
 			}
 			System.out.println("response body : " + result);
 
-//			JsonParser parser = new JsonParser();
-//			JsonElement element = parser.parse(result);
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(result);
 
-			JsonElement element = JsonParser.parseString(result);
+			//JsonElement element = JsonParser.parseString(result);
 
 			socialId = element.getAsJsonObject().get("id").getAsString();
 
