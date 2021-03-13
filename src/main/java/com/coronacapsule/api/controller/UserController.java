@@ -89,7 +89,7 @@ public class UserController {
 			throw new BusinessException("로그인에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
 
 		}
-		return ResponseEntity.ok("jwtToken: " + jwtToken);
+		return ResponseEntity.ok(jwtToken);
 
 	}
 
@@ -119,7 +119,7 @@ public class UserController {
 			throw new BusinessException("회원가입에 실패하였습니다.", ErrorCode.TOKEN_ERROR);
 
 		}
-		return ResponseEntity.ok("jwtToken: " + jwtToken);
+		return ResponseEntity.ok(jwtToken);
 
 	}
 
