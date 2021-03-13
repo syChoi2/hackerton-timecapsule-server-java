@@ -90,7 +90,7 @@ public class MarbleController {
 	@ApiOperation(value="구슬 등록")
 	@ApiImplicitParam(name = "X-ACCESS-TOKEN", paramType = "header", required = true, value = "access token")
 	@PostMapping
-	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\nmarbleColor : String, 숫자 둘다 허용 [RED(0), YELLOW(1), BLUE(2), GREEN(3), PURPLE(4)]", required = true)@RequestBody PostMarbleRequestDto marble, @ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) throws Exception{
+	public ResponseEntity<?> putMarble(@ApiParam(value = "marble\r\nmarbleColor : String, 숫자 둘다 허용 [RED(0), YELLOW(1), GREEN(2), BLUE(3), PURPLE(4)]", required = true)@RequestBody PostMarbleRequestDto marble, @ApiIgnore @AuthenticationPrincipal JwtAuthentication authentication) throws Exception{
 		
 		long userId = authentication.userId;
 		
