@@ -21,7 +21,7 @@ public enum ErrorCode {
     INVALID_FORMAT(HttpStatus.BAD_REQUEST.value(), "CM006", "잘못된 형식입니다."),
     ACCESS_TOKEN_EXPIRED(HttpStatus.BAD_REQUEST.value(), "CM007", "접근 권한이 만료되었습니다."),
     
-    OPEN_NOT_ALLOWED(HttpStatus.BAD_REQUEST.value(), "CM008", "캡슐은 코로나가 끝나야 열어볼 수 있어요"),
+    OPEN_NOT_ALLOWED(HttpStatus.BAD_REQUEST.value(), "CM008", "로켓은 코로나가 끝나야 열어볼 수 있어요"),
 
     // User Controller
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "US001", "사용자를 찾을 수 없습니다."),
@@ -30,12 +30,12 @@ public enum ErrorCode {
     MODIFY_ERROR(HttpStatus.BAD_REQUEST.value(), "US002", "수정에 실패하였습니다."),
 
     //Capsule Controller
-    CAPSULE_NAME_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "CP001", "캡슐 이름은 10자 이내로 입력해주세요"),
+    CAPSULE_NAME_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "CP001", "로켓 이름은 10자 이내로 입력해주세요"),
 
 	
 	// marble controller
-	NO_EMPTY_SPACE(HttpStatus.BAD_REQUEST.value(), "MB001", "캡슐에 더 이상 공간이 없어요😢"),
-	MARBLE_CONTENT_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "MB002", "소원은 21자 까지만 입력할 수 있어요");
+	NO_EMPTY_SPACE(HttpStatus.BAD_REQUEST.value(), "MB001", "로켓이 꽉 찼어요😢"),
+	MARBLE_CONTENT_TOO_LONG(HttpStatus.BAD_REQUEST.value(), "MB002", "소원운석은 21자 까지만 입력할 수 있어요");
 
 
     private int status;
