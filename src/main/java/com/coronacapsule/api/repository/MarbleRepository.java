@@ -25,7 +25,7 @@ public interface MarbleRepository extends JpaRepository<Marbles, Long> {
 					"select 'GREEN' marble_color from dual union all " + 
 					"select 'PURPLE' marble_color from dual) a " + 
 					"left join " + 
-					"(select marble_color, count(*) marbleCount from marbles where capsule_id in (select capsule_id from capsules where user_id = :userId) group by marble_color) b " + 
+					"(select marble_color, count(*) marbleCount from marbles where capsule_id in (select id from capsules where user_id = :userId) group by marble_color) b " +
 					"on ( a.marble_color = b.marble_color )")
 	List<MarbleColorResultSet> findMarbleColorCountsByUserId(@Param("userId") long userId);
 
