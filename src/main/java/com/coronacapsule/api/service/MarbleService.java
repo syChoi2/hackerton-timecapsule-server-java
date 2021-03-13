@@ -31,7 +31,10 @@ public class MarbleService {
 	private final CapsuleRepository capsuleRepository;
 	
 	public void putMarble(long userId, PostMarbleRequestDto marble) {
-	
+
+		if(marble.getContent()==null){
+			throw new BusinessException("소원 내용(content)", ErrorCode.INSUFFICIENT_VALUE);
+		}
 		if(marble.getContent().length()>21) {
 			throw new BusinessException(ErrorCode.MARBLE_CONTENT_TOO_LONG);
 		}
@@ -60,7 +63,7 @@ public class MarbleService {
 			iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndDeletedFalseOrderByMarbleId(userId);
 		}
 		
-		List<MarbleDto> marbleList = new ArrayList<MarbleDto>();
+		List<MarbleDto> marbleList = new ArrayList<>();
 		
 		for (Marbles marble : iterableMarble) {
 			marbleList.add(marble.convertToDto());
@@ -69,7 +72,7 @@ public class MarbleService {
 		//캡슐 ID로 색깔별 구슬 count 검색
 		List<MarbleColorResultSet> marbleColorCount = marbleRepository.findMarbleColorCountsByUserId(userId);
 		
-		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<MarbleColorCount>();
+		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<>();
 		
 		for (MarbleColorResultSet marbleColorResultSet : marbleColorCount) {
 			MarbleColorCount mc = MarbleColorCount.builder()
@@ -98,7 +101,7 @@ public class MarbleService {
 	public List<MarbleDto> getChekcedMarbleList(long userId) {
 		Iterable<Marbles> iterableMarble = marbleRepository.findAllByCapsule_User_UserIdAndWishCheckedTrueAndDeletedFalseOrderByModifiedAtDesc(userId);
 	
-		List<MarbleDto> marbleList = new ArrayList<MarbleDto>();
+		List<MarbleDto> marbleList = new ArrayList<>();
 		
 		for (Marbles marble : iterableMarble) {
 			marbleList.add(marble.convertToDto());

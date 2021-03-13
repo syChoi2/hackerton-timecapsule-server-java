@@ -31,7 +31,10 @@ public class CapsuleService {
 	
 	
 	public void setCapsuleName(long userId, CapsuleNameDto capsuleNameDto) {
-		
+
+		if(capsuleNameDto.getCapsuleName()==null){
+			throw new BusinessException("캡슐이름(capsuleName)", ErrorCode.INSUFFICIENT_VALUE);
+		}
 		if(capsuleNameDto.getCapsuleName().length()>10) {
 			throw new BusinessException(ErrorCode.CAPSULE_NAME_TOO_LONG);
 		}
@@ -53,7 +56,7 @@ public class CapsuleService {
 		//캡슐 ID로 색깔별 구슬 count 검색
 		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCountsByCapsuleId(capsule.getCapsuleId());
 		
-		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<MarbleColorCount>();
+		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<>();
 		
 		for (MarbleColorResultSet marbleColorResultSet : marbleColorCount) {
 			MarbleColorCount mc = MarbleColorCount.builder()
