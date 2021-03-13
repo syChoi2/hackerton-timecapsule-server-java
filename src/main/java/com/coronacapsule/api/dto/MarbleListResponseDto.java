@@ -10,6 +10,6 @@ import lombok.Getter;
 public class MarbleListResponseDto {
 
 	List<MarbleDto> marbleList;
-	List<MarbleColorResultSet> marbleColorCount;
+	List<MarbleColorCount> marbleColorCount;
 	
 }

@@ -6,12 +6,16 @@ import java.util.stream.Collectors;
 
 public enum MarbleColor {
 
-	RED(0), YELLOW(1), BLUE(2), GREEN(3), PURPLE(4);
+	RED(0), YELLOW(1), GREEN(2), BLUE(3), PURPLE(4);
 	
     final int ordinal;
 
     private MarbleColor(int ordinal) {
         this.ordinal = ordinal;
+    }
+    
+    public int getOrdinal() {
+    	return ordinal;
     }
 
     static Map<Integer, MarbleColor> lookup = null;

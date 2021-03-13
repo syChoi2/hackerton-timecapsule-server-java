@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.coronacapsule.api.dto.MarbleColorCount;
 import com.coronacapsule.api.dto.MarbleColorResultSet;
 import com.coronacapsule.api.dto.MarbleDto;
 import com.coronacapsule.api.dto.MarbleListResponseDto;
@@ -68,9 +69,18 @@ public class MarbleService {
 		//캡슐 ID로 색깔별 구슬 count 검색
 		List<MarbleColorResultSet> marbleColorCount = marbleRepository.findMarbleColorCountsByUserId(userId);
 		
+		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<MarbleColorCount>();
+		
+		for (MarbleColorResultSet marbleColorResultSet : marbleColorCount) {
+			MarbleColorCount mc = MarbleColorCount.builder()
+					.marbleColor(marbleColorResultSet.getMarbleColor().getOrdinal())
+					.marbleCount(marbleColorResultSet.getMarbleCount())
+					.build();
+			marbleColorCountToIntList.add(mc);
+		}
 		MarbleListResponseDto marbleListResponseDtoList = MarbleListResponseDto.builder()
 				.marbleList(marbleList)
-				.marbleColorCount(marbleColorCount)
+				.marbleColorCount(marbleColorCountToIntList)
 				.build();
 		
 		return marbleListResponseDtoList;

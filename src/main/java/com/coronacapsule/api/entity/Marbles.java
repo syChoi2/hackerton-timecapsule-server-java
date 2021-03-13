@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import com.coronacapsule.api.dto.MarbleDto;
 import com.coronacapsule.api.enums.MarbleColor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class Marbles extends JpaBase {
 
 	private String content;
 	@Enumerated(EnumType.STRING)
+	@JsonProperty("marbleColor")
 	private MarbleColor marbleColor;
 	private boolean wishChecked;
 	
@@ -51,7 +53,7 @@ public class Marbles extends JpaBase {
 		return MarbleDto.builder()
 			.marbleId(marbleId)
 			.content(content)
-			.marbleColor(marbleColor)
+			.marbleColor(marbleColor.getOrdinal())
 			.wishChecked(wishChecked)
 			.createdAt(super.getCreatedAt().toLocalDate())
 			.build();
