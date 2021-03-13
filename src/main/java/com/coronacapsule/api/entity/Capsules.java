@@ -42,7 +42,7 @@ public class Capsules extends JpaBase {
 	private Users user;
 
 	@Builder.Default
-	private String capsuleName = "캡슐 이름을 지정해주세요";
+	private String capsuleName = "로켓 이름을 지정해주세요";
 	@Builder.Default
 	private int allowedMarbleCount = 21;
 	
