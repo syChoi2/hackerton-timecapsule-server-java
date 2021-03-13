@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.coronacapsule.api.dto.CapsuleDto;
-import com.coronacapsule.api.dto.MarbleColorResultSet;
+import com.coronacapsule.api.dto.MarbleColorCount;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -40,9 +40,11 @@ public class Capsules extends JpaBase {
 	@JoinColumn(name="user_id")
     @JsonBackReference
 	private Users user;
-	
-	private String capsuleName;
-	private int allowedMarbleCount;
+
+	@Builder.Default
+	private String capsuleName = "캡슐 이름을 지정해주세요";
+	@Builder.Default
+	private int allowedMarbleCount = 21;
 	
 	@ToString.Exclude
 	@JsonManagedReference
@@ -64,15 +66,20 @@ public class Capsules extends JpaBase {
 		
 	}
 	
-	public CapsuleDto convertToCapsuleDto(List<MarbleColorResultSet> marbleColorCountDto) {
-		
+	public CapsuleDto convertToCapsuleDto(List<MarbleColorCount> marbleColorCountToIntList) {
 		return CapsuleDto.builder()
 				.capsuleId(capsuleId)
 				.capsuleName(capsuleName)
 				.allowedMarbleCount(allowedMarbleCount)
 				.usedCount(marbleList.size())
-				.marbleColorCount(marbleColorCountDto)
+				.marbleColorCount(marbleColorCountToIntList)
 				.build();
+		
+	}
+
+	public void setUsers(Users user) {
+		this.user = user;
+		user.getCapsuleList().add(this);
 		
 	}
 	

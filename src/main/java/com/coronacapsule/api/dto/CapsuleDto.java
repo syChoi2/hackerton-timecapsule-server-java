@@ -15,6 +15,6 @@ public class CapsuleDto {
 	private int allowedMarbleCount;
 	private int usedCount;
 	
-	private List<MarbleColorResultSet> marbleColorCount;
+	private List<MarbleColorCount> marbleColorCount;
 	
 }

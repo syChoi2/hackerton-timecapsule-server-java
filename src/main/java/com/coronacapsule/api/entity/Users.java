@@ -46,10 +46,15 @@ public class Users extends JpaBase {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
-	private List<Capsules> marbleList = new ArrayList<Capsules>();
+	private List<Capsules> capsuleList = new ArrayList<Capsules>();
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Stream.of(Role.USER.value()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

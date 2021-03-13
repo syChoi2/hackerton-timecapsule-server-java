@@ -1,5 +1,6 @@
 package com.coronacapsule.api.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.coronacapsule.api.dto.CapsuleDto;
 import com.coronacapsule.api.dto.CapsuleNameDto;
+import com.coronacapsule.api.dto.MarbleColorCount;
 import com.coronacapsule.api.dto.MarbleColorResultSet;
 import com.coronacapsule.api.entity.Capsules;
 import com.coronacapsule.api.entity.CoronaEndFlag;
@@ -51,8 +53,18 @@ public class CapsuleService {
 		//캡슐 ID로 색깔별 구슬 count 검색
 		List<MarbleColorResultSet> marbleColorCount = capsuleRepository.findMarbleColorCountsByCapsuleId(capsule.getCapsuleId());
 		
+		List<MarbleColorCount> marbleColorCountToIntList = new ArrayList<MarbleColorCount>();
+		
+		for (MarbleColorResultSet marbleColorResultSet : marbleColorCount) {
+			MarbleColorCount mc = MarbleColorCount.builder()
+					.marbleColor(marbleColorResultSet.getMarbleColor().getOrdinal())
+					.marbleCount(marbleColorResultSet.getMarbleCount())
+					.build();
+			marbleColorCountToIntList.add(mc);
+		}
+		
 		//Entity to Dto
-		CapsuleDto capsuleDto = capsule.convertToCapsuleDto(marbleColorCount);
+ 		CapsuleDto capsuleDto = capsule.convertToCapsuleDto(marbleColorCountToIntList);
 
 		return capsuleDto;
 	}

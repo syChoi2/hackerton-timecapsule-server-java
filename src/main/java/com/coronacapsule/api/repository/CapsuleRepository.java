@@ -20,8 +20,8 @@ public interface CapsuleRepository extends JpaRepository<Capsules, Long> {
 			value="select a.marble_color marbleColor, IFNULL(b.marbleCount,0) marbleCount from  " + 
 			"(select 'RED' marble_color from dual union all " + 
 			"select 'YELLOW' marble_color from dual union all " + 
-			"select 'BLUE' marble_color from dual union all " + 
 			"select 'GREEN' marble_color from dual union all " + 
+			"select 'BLUE' marble_color from dual union all " + 
 			"select 'PURPLE' marble_color from dual) a " + 
 			"left join " + 
 			"(select marble_color, count(*) marbleCount from marbles where capsule_id = :capsuleId group by marble_color) b " + 
