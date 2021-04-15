@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 	boolean existsBySocialIdAndDeletedFalse(String socialId);
 
 
-	Optional<Users> findBySocialId(String social_id);
+	Optional<Users> findBySocialIdAndDeleted(String social_id, boolean isDeleted);
 
 
 	

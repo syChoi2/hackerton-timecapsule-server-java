@@ -35,7 +35,7 @@ public class UserService {
 	public String userLogin(String social_id) throws Exception{
 		
 		// 1. 사용자 존재여부 확인
-		Users user = userRepository.findBySocialId(social_id).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
+		Users user = userRepository.findBySocialIdAndDeleted(social_id,false).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
 		
 		// 2. 토큰 발급	socialId가 아니라 userId 로 해야함	//만약 social id도 token에 담고 싶으면 추가해도 되지만 지금은 사용할 데가 없으니 userId만 담겠습니다.
 		String jwtToken = createJwtToken(user.getUserId());
